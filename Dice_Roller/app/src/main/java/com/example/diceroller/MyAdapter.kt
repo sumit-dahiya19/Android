@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class MyAdapter (val songs:List<Song>):RecyclerView.Adapter<MyAdapter.MyViewHolder>(){
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         //This will create ViewHolder and store view in it
         //first we have to make a view , for making view we need a Layout Inflator Class
@@ -24,21 +26,23 @@ class MyAdapter (val songs:List<Song>):RecyclerView.Adapter<MyAdapter.MyViewHold
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.txtitle.text=songs[position].title
-        holder.txtdescription.text=songs[position].description
-        var color="#CCCCCC"
-        if(position%2==0)
-          color ="#EEEEEE"
-        holder.container.setBackgroundColor(Color.parseColor(color))
 
-
+        holder.setdata(position)
     }
 
-    class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         var txtitle=itemView.findViewById<TextView>(R.id.txtTitle)
         var txtdescription=itemView.findViewById<TextView>(R.id.txtdescription)
         var container=itemView.findViewById<LinearLayout>(R.id.container)
 
+        fun setdata(position: Int){
+            txtitle.text=songs[position].title
+            txtdescription.text=songs[position].description
+            var color="#CCCCCC"
+            if(position%2==0)
+                color ="#EEEEEE"
+            container.setBackgroundColor(Color.parseColor(color))
+        }
 
     }
 
