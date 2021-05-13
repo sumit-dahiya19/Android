@@ -13,9 +13,7 @@ class MyAdapter (val songs:List<Song>):RecyclerView.Adapter<MyAdapter.MyViewHold
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        //This will create ViewHolder and store view in it
-        //first we have to make a view , for making view we need a Layout Inflator Class
-        //Layout Inflmator convert xml file into java object
+        
         val infaltor=LayoutInflater.from(parent.context)
         val view =infaltor.inflate(R.layout.item_view,parent,false )
         return MyViewHolder(view)
@@ -31,9 +29,9 @@ class MyAdapter (val songs:List<Song>):RecyclerView.Adapter<MyAdapter.MyViewHold
     }
 
     inner class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        var txtitle=itemView.findViewById<TextView>(R.id.txtTitle)
-        var txtdescription=itemView.findViewById<TextView>(R.id.txtdescription)
-        var container=itemView.findViewById<LinearLayout>(R.id.container)
+        var txtitle: TextView =itemView.findViewById<TextView>(R.id.txtTitle)
+        var txtdescription: TextView =itemView.findViewById<TextView>(R.id.txtdescription)
+        var container: LinearLayout =itemView.findViewById<LinearLayout>(R.id.container)
 
         fun setdata(position: Int){
             txtitle.text=songs[position].title
