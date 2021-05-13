@@ -1,0 +1,8 @@
+com/example/diceroller/databinding/ActivityMainBinding.java
+ com.example.diceroller.databinding.ActivityMainBinding
+com/example/diceroller/BuildConfig.java
+ com.example.diceroller.BuildConfig
+com/example/diceroller/databinding/ItemViewBinding.java
+ com.example.diceroller.databinding.ItemViewBinding
+com/example/diceroller/databinding/PracticeBinding.java
+ com.example.diceroller.databinding.PracticeBinding

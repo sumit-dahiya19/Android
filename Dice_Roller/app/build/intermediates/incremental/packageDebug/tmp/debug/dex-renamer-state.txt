@@ -1,0 +1,4 @@
+#Thu May 13 22:57:19 IST 2021
+base.0=/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/build/intermediates/dex/debug/mergeDexDebug/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

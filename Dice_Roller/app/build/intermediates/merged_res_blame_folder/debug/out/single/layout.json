@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/practice.xml",
+        "source": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/src/main/res/layout/practice.xml"
+    },
+    {
+        "merged": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/item_view.xml",
+        "source": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/src/main/res/layout/item_view.xml"
+    },
+    {
+        "merged": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/build/intermediates/incremental/mergeDebugResources/stripped.dir/layout/activity_main.xml",
+        "source": "/Users/loconav/Downloads/Sumit/Android_track/Dice_Roller/app/src/main/res/layout/activity_main.xml"
+    }
+]

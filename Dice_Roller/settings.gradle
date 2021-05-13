@@ -1,0 +1,3 @@
+include ':myModuleCreationTemp'
+include ':app'
+rootProject.name = "Dice Roller"
