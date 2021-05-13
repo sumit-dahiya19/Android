@@ -1,51 +1,55 @@
 package com.example.diceroller
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
+import android.view.View
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.diceroller.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.BaseTransientBottomBar
+import com.google.android.material.snackbar.Snackbar
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator
+import java.text.NumberFormat
+import kotlin.math.ceil
 
-/**
- * This activity allows the user to roll a dice and view the result
- * on the screen.
- */
+
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        rollDice()
-        val rollButton: Button = findViewById(R.id.button)
-        rollButton.setOnClickListener { rollDice() }
+        setContentView(binding.root)
 
+        binding.calculateButton.setOnClickListener { calculatetip() }
     }
 
-    private fun rollDice() {
-        val dice = Dice(6)
-        val diceRoll = dice.roll()
-        val diceImage: ImageView = findViewById(R.id.imageView)
 
-        when (diceRoll) {
-            1 -> diceImage.setImageResource(R.drawable.dice_1)
-            2 -> diceImage.setImageResource(R.drawable.dice_2)
-            3 -> diceImage.setImageResource(R.drawable.dice_3)
-            4 -> diceImage.setImageResource(R.drawable.dice_4)
-            5 -> diceImage.setImageResource(R.drawable.dice_5)
-            else -> diceImage.setImageResource(R.drawable.dice_6)
+    private fun calculatetip() {
+        val cost = binding.costOfService.text.toString().toDoubleOrNull()
+        if (cost == null){
+            binding.tipResult.text=""
+            return}
+        val tipPrecentage = when (binding.tipOption.checkedRadioButtonId) {
+            R.id.option_15_percent -> 0.15
+            R.id.option_18_percent -> 0.18
+            else -> 0.20
         }
-        diceImage.contentDescription = diceRoll.toString()
+        var tip = tipPrecentage * cost
+        val roundUp = binding.roundUpSwitch.isChecked
+        if (roundUp) {
+            tip = kotlin.math.ceil(tip)
+        }
+        val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
 
+        binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
     }
+
+
 }
 
-/**
- * Roll the dice and update the screen with the result.
- */
-class Dice(val numSides: Int) {
-    fun roll(): Int {
-        return (1..numSides).random()
-    }
-}
