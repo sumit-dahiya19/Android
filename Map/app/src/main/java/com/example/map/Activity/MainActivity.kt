@@ -1,9 +1,12 @@
 package com.example.map
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.map.Activity.WebSockett
 import com.example.map.Network.ServiceBuilder
 import com.example.map.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -37,6 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        binding.button.setOnClickListener{
+
+            val intent = Intent(binding.root.context, WebSockett::class.java)
+            ContextCompat.startActivity(binding.root.context, intent, null)
+
+        }
     }
 }
 
