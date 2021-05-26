@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.map.Activity.VehicleWebSocket
 import com.example.map.Activity.WebSockett
+import com.example.map.Map.LiveLocation
 import com.example.map.Network.ServiceBuilder
 import com.example.map.databinding.ActivityMainBinding
 import retrofit2.Call
@@ -46,9 +46,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.VehicleWS.setOnClickListener {
-            val intent = Intent(binding.root.context, VehicleWebSocket::class.java)
+            val intent = Intent(binding.root.context, LiveLocation::class.java)
             startActivity(intent)
-
         }
     }
 }

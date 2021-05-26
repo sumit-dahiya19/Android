@@ -8,4 +8,5 @@
     <string name="lat_long_snippet">Lat: %1$.5f, Long: %2$.5f</string>
     <string name="dropped_pin">Dropped Pin</string>
     <string name="poi">poi</string>
+    <string name="title_activity_live_location">Map</string>
 </resources>
