@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Map">
-        <activity android:name=".Activity.WebSockett"></activity>
+        <activity android:name=".Activity.VehicleWebSocket"></activity>
+        <activity android:name=".Activity.WebSockett" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").

@@ -21,10 +21,21 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="WebSocket"
+        android:text="Coin WebSocket"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+
+    <Button
+        android:id="@+id/VehicleWS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vehicle WS"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button"></Button>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,8 +4,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.map.Activity.VehicleWebSocket
 import com.example.map.Activity.WebSockett
 import com.example.map.Network.ServiceBuilder
 import com.example.map.databinding.ActivityMainBinding
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val adapter = MyAdapter(response.body()!!)
                     binding.recyclerView.adapter = adapter
-                    binding.recyclerView.layoutManager=LinearLayoutManager(baseContext)
+                    binding.recyclerView.layoutManager = LinearLayoutManager(baseContext)
 
                 } else
                     Toast.makeText(baseContext, "Some Error Occured ", Toast.LENGTH_LONG).show()
@@ -40,10 +40,14 @@ class MainActivity : AppCompatActivity() {
 
         })
 
-        binding.button.setOnClickListener{
+        binding.button.setOnClickListener {
 
             val intent = Intent(binding.root.context, WebSockett::class.java)
-            ContextCompat.startActivity(binding.root.context, intent, null)
+            startActivity(intent)
+        }
+        binding.VehicleWS.setOnClickListener {
+            val intent = Intent(binding.root.context, VehicleWebSocket::class.java)
+            startActivity(intent)
 
         }
     }
