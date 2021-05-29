@@ -91,6 +91,7 @@ class LiveLocation : AppCompatActivity(), OnMapReadyCallback {
         message.let {
 
             try {
+                Log.i("WebSocket","Data recieved")
                 val moshi = Moshi.Builder()
                     .add(KotlinJsonAdapterFactory())
                     .build()
@@ -104,20 +105,25 @@ class LiveLocation : AppCompatActivity(), OnMapReadyCallback {
                     val lat = data?.message?.payload?.latitude
                     val long = data?.message?.payload?.longitude
                     speed = data?.message?.payload?.speed
+                    val orientation=data?.message?.payload?.orientation
 
                     val latLong = LatLng(lat!!, long!!)
 
                     marker.position = latLong
+                    marker.rotation= orientation.let {
+                        it?.toFloat() as Float
+                    }
                     marker.title = latLong.toString()
                     marker.snippet = "speed $speed"
                     marker.showInfoWindow()
 
                     val zoomlevel = 15f
                     map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomlevel))
+
                 }
 
             } catch (ex: JsonDataException) {
-                println("error")
+                println("Ping")
             }
         }
     }
@@ -132,8 +138,11 @@ class LiveLocation : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions().position(homelatlong)
                 .title(homelatlong.toString())
                 .snippet("Speed:$speed")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.truck20px))
         )
     }
+
+
+
 
 }

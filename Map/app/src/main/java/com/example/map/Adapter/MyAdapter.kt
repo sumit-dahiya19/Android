@@ -62,7 +62,7 @@ class MyAdapter(private val obj: VechicleInfo) : RecyclerView.Adapter<MyAdapter.
                     "speed",
                     arrData[position].lastLocation.speed
                 )
-
+//
                 ContextCompat.startActivity(container.context, intent, null)
 
             } else {

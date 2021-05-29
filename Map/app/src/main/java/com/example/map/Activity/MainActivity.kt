@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
             override fun onResponse(call: Call<VechicleInfo>, response: Response<VechicleInfo>) {
                 if (response.isSuccessful) {
-                    val adapter = MyAdapter(response.body()!!)
+                    val adapter = response.body()?.let { MyAdapter(it) }
                     binding.recyclerView.adapter = adapter
                     binding.recyclerView.layoutManager = LinearLayoutManager(baseContext)
 
