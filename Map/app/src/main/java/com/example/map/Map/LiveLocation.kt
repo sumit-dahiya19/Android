@@ -1,10 +1,11 @@
 package com.example.map.Map
 
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.example.map.ApiData.VehicleWS
+import androidx.lifecycle.observe
 import com.example.map.R
+import com.example.map.ViewModel.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -13,136 +14,51 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.JsonDataException
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import org.java_websocket.client.WebSocketClient
-import org.java_websocket.handshake.ServerHandshake
-import java.net.URI
-import javax.net.ssl.SSLSocketFactory
 
 class LiveLocation : AppCompatActivity(), OnMapReadyCallback {
 
     private lateinit var map: GoogleMap
-    lateinit var webSocketClient: WebSocketClient
-    private var WEB_SOCKET_URL = "wss://stgtessaractws.loconav.com/cable?token=Re_RxxzPi-5ZK_HmuUhG"
-    private var speed: Long? = null
     private lateinit var marker: Marker
-
+    private val viewModel: MapViewModel by viewModels()
+    lateinit var  mapFragment:SupportMapFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_live_location)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+        mapFragment = supportFragmentManager
+           .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        initWebSocket()
+
     }
-
-    private fun initWebSocket() {
-        val uri = URI(WEB_SOCKET_URL)
-        createWebSocketClient(uri)
-
-        val socketFactory: SSLSocketFactory = SSLSocketFactory.getDefault() as SSLSocketFactory
-        webSocketClient.setSocketFactory(socketFactory)
-        webSocketClient.connect()
-    }
-
-    private fun createWebSocketClient(uri: URI) {
-        webSocketClient = object : WebSocketClient(uri) {
-            override fun onOpen(handshakedata: ServerHandshake?) {
-                suscribe()
-            }
-
-            override fun onClose(code: Int, reason: String?, remote: Boolean) {
-                unsuscribe()
-            }
-
-            override fun onMessage(message: String?) {
-                set(message)
-            }
-
-            override fun onError(ex: Exception?) {
-                Log.e("Error", "In WebSocket")
-            }
-
-        }
-    }
-
-    fun suscribe() {
-        webSocketClient.send(
-            "{\"command\":\"subscribe\",\"identifier\":\"{\\\"channel\\\":\\\"VehicleUpdatesChannel\\\",\\\"vehicle_id\\\":13}\"}"
-        )
-    }
-
-    fun unsuscribe() {
-        webSocketClient.send(
-            "{\n" +
-                    "    \"command\": \"unsubscribe\",\n" +
-                    "}"
-        )
-    }
-
-    fun set(message: String?) {
-
-        message.let {
-
-            try {
-                Log.i("WebSocket","Data recieved")
-                val moshi = Moshi.Builder()
-                    .add(KotlinJsonAdapterFactory())
-                    .build()
-                val adapter: JsonAdapter<VehicleWS> = moshi.adapter(VehicleWS::class.java)
-
-                val data = adapter.fromJson(message)
-
-
-                runOnUiThread {
-
-                    val lat = data?.message?.payload?.latitude
-                    val long = data?.message?.payload?.longitude
-                    speed = data?.message?.payload?.speed
-                    val orientation=data?.message?.payload?.orientation
-
-                    val latLong = LatLng(lat!!, long!!)
-
-                    marker.position = latLong
-                    marker.rotation= orientation.let {
-                        it?.toFloat() as Float
-                    }
-                    marker.title = latLong.toString()
-                    marker.snippet = "speed $speed"
-                    marker.showInfoWindow()
-
-                    val zoomlevel = 15f
-                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLong, zoomlevel))
-
-                }
-
-            } catch (ex: JsonDataException) {
-                println("Ping")
-            }
-        }
-    }
-
-
     override fun onMapReady(googleMap: GoogleMap) {
-        map = googleMap
 
-        val homelatlong = LatLng(0.0, 0.0)
+        map = googleMap
+        var placeMarker = LatLng(0.0, 0.0)
 
         marker = map.addMarker(
-            MarkerOptions().position(homelatlong)
-                .title(homelatlong.toString())
-                .snippet("Speed:$speed")
+            MarkerOptions().position(placeMarker)
+                .title(placeMarker.toString())
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.truck20px))
         )
+        val zoomlevel = 12f
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(placeMarker, zoomlevel))
+        marker.showInfoWindow()
+
+        println(Thread.currentThread().name)
+
+        viewModel.data.observe(this) { data ->
+            placeMarker= LatLng(data?.latitude!!,data?.longitude!!)
+            marker.snippet="${data?.speed}"
+            marker.title
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(placeMarker, zoomlevel))
+            marker.showInfoWindow()
+        }
+
     }
 
-
-
-
 }
+
+
+
+
